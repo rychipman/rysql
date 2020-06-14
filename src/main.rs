@@ -1,8 +1,8 @@
-use std::{process, io::{self, Write}};
-use crate::result::{Result, Error};
-
 pub mod parser;
 pub mod result;
+
+use std::{process, io::{self, Write}};
+use crate::{parser::cst, result::{Result, Error}};
 
 fn main() {
 	match repl() {
@@ -62,7 +62,7 @@ fn print_prompt() -> Result<()> {
 enum Statement {
 	Meta(MetaCommand),
 	NoOp,
-	ParsedExpr(parser::Expr),
+	ParsedExpr(cst::Expr),
 }
 
 impl Statement {
@@ -73,7 +73,7 @@ impl Statement {
 			let meta = MetaCommand::parse(input[1..].to_string())?;
 			Ok(Statement::Meta(meta))
 		} else {
-			let expr = parser::Expr::parse(&input)?;
+			let expr = parser::parse(&input)?;
 			Ok(Statement::ParsedExpr(expr))
 		}
 	}
