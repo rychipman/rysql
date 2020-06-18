@@ -1,4 +1,5 @@
 use std::{io, fmt};
+use crate::parser::lalrpop;
 
 pub type Result<T> = std::result::Result<T, Error>;
 
@@ -6,7 +7,8 @@ pub enum Error {
 	Io(io::Error),
 	UnknownCommand(String),
 	UnknownMetaCommand(String),
-	Pest(String),
+	Parse(String),
+	Unimplemented(String),
 	Other(String),
 }
 
@@ -16,7 +18,8 @@ impl fmt::Display for Error {
 			Error::Io(e) => format!("io error: {}", e),
 			Error::UnknownCommand(c) => format!("unknown command '{}'", c),
 			Error::UnknownMetaCommand(c) => format!("unknown meta command '{}'", c),
-			Error::Pest(msg) => format!("parse error:\n{}", msg),
+			Error::Parse(msg) => format!("parse error:\n{}", msg),
+			Error::Unimplemented(msg) => format!("unimplemented: {}", msg),
 			Error::Other(s) => format!("unexpected error: {}", s),
 		})
 	}
@@ -30,6 +33,12 @@ impl From<io::Error> for Error {
 
 impl<R: pest::RuleType> From<pest::error::Error<R>> for Error {
 	fn from(e: pest::error::Error<R>) -> Self {
-		Error::Pest(format!("{}", e))
+		Error::Parse(format!("{}", e))
+	}
+}
+
+impl From<lalrpop::ParseError<'_>> for Error {
+	fn from(e: lalrpop::ParseError<'_>) -> Self {
+		Error::Parse(format!("{}", e))
 	}
 }

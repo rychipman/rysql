@@ -27,7 +27,11 @@ fn repl() -> Result<()> {
 				println!("{}", Error::UnknownMetaCommand(e));
 				continue
 			},
-			Err(Error::Pest(msg)) => {
+			Err(Error::Unimplemented(e)) => {
+				println!("{}", Error::Unimplemented(e));
+				continue
+			},
+			Err(Error::Parse(msg)) => {
 				println!("{}", msg);
 				continue
 			}

@@ -3,9 +3,14 @@ name = "rysql"
 version = "0.1.0"
 authors = ["Ryan Chipman <ryan@ryanchipman.com>"]
 edition = "2018"
+build = "build.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 pest = "2.1"
 pest_derive = "2.1"
+lalrpop-util = "0.19.0"
+
+[build-dependencies]
+lalrpop = { version = "0.19.0", features = ["lexer"] }
