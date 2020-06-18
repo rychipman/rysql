@@ -8,6 +8,6 @@ use crate::result::Result;
 
 pub use lalrpop::ParseError;
 
-pub fn parse(input: &str) -> Result<cst::Expr> {
+pub fn parse(input: &str) -> Result<cst::Statement> {
 	lalrpop::parse(input)
 }

@@ -1,6 +1,10 @@
 #[derive(Debug)]
-pub enum Expr {
+pub enum Statement {
 	Select(Select),
+}
+
+#[derive(Debug)]
+pub enum Expr {
 	Column(ColumnName),
 }
 

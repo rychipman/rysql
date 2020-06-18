@@ -2,7 +2,11 @@ use crate::parser::cst;
 
 grammar;
 
-pub Select: cst::Select = {
+pub Statement: cst::Statement = {
+	Select => cst::Statement::Select(<>),
+}
+
+Select: cst::Select = {
 	"select" <exprs:SelectExprs> => cst::Select { exprs, from: None },
 };
 

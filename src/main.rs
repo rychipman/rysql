@@ -45,7 +45,7 @@ fn exec_stmt(stmt: Statement) -> Result<()> {
 	match stmt {
 		Statement::Meta(MetaCommand::Exit) => process::exit(0),
 		Statement::NoOp => {},
-		Statement::ParsedExpr(expr) => println!("parsed {:?}", expr),
+		Statement::Parsed(s) => println!("parsed {:?}", s),
 	};
 	Ok(())
 }
@@ -70,7 +70,7 @@ fn print_prompt() -> Result<()> {
 enum Statement {
 	Meta(MetaCommand),
 	NoOp,
-	ParsedExpr(cst::Expr),
+	Parsed(cst::Statement),
 }
 
 impl Statement {
@@ -81,8 +81,8 @@ impl Statement {
 			let meta = MetaCommand::parse(input[1..].to_string())?;
 			Ok(Statement::Meta(meta))
 		} else {
-			let expr = parser::parse(&input)?;
-			Ok(Statement::ParsedExpr(expr))
+			let stmt = parser::parse(&input)?;
+			Ok(Statement::Parsed(stmt))
 		}
 	}
 }
