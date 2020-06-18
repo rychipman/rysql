@@ -6,8 +6,18 @@ pub Select: cst::Select = {
 	"select" <exprs:SelectExprs> => cst::Select { exprs, from: None },
 };
 
-SelectExprs: Vec<cst::SelectExpr> = {
-	Expr => vec![cst::SelectExpr{ expr: <>, alias: None }],
+CommaList<T>: Vec<T> = {
+	<v:(<T> ",")*> <last:T> => {
+		let mut v = v;
+		v.push(last);
+		v
+	},
+};
+
+SelectExprs = CommaList<SelectExpr>;
+
+SelectExpr: cst::SelectExpr = {
+	Expr => cst::SelectExpr{ expr: <>, alias: None },
 };
 
 Expr: cst::Expr = {
