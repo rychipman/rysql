@@ -27,6 +27,10 @@ fn repl() -> Result<()> {
 				println!("{}", Error::UnknownMetaCommand(e));
 				continue
 			},
+			Err(Error::Pest(msg)) => {
+				println!("{}", msg);
+				continue
+			}
 			Err(e) => return Err(e),
 		};
 		exec_stmt(stmt)?;

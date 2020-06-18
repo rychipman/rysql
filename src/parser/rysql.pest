@@ -1,2 +1,5 @@
 
-select = { "SELECT" }
+WHITESPACE = _{ " "+ }
+select = { "SELECT" ~ select_exprs }
+select_exprs = { select_expr ~ ("," ~ select_expr)* }
+select_expr = { ASCII_ALPHANUMERIC+ }

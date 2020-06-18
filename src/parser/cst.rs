@@ -1,6 +1,7 @@
 #[derive(Debug)]
 pub enum Expr {
 	Select(Select),
+	Column(ColumnName),
 }
 
 #[derive(Debug)]
@@ -16,7 +17,17 @@ pub struct SelectExpr {
 }
 
 #[derive(Debug)]
-pub struct ColumnName(String);
+pub enum TableExpr {}
 
 #[derive(Debug)]
-pub enum TableExpr {}
+pub struct ColumnName {
+	name: String,
+}
+
+impl<S: Into<String>> From<S> for ColumnName {
+	fn from(name: S) -> Self {
+		let name: String = name.into();
+		let normalized_name = name.to_lowercase();
+		ColumnName{name: normalized_name}
+	}
+}
