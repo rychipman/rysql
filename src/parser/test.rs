@@ -13,4 +13,5 @@ fn test_should_parse(should_parse: bool, input: &str) {
 fn should_parse() {
 	test_should_parse(true,  "select foo");
 	test_should_parse(false, "select foo;");
+	test_should_parse(true,  "select foo from bar");
 }
