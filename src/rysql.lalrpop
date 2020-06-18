@@ -1,10 +1,17 @@
-use std::str::FromStr;
+use crate::parser::cst;
 
 grammar;
 
-pub Term: i32 = {
-	<n:Num> => n,
-	"(" <t:Term> ")" => t,
+pub Select: cst::Select = {
+	"select" <exprs:SelectExprs> => cst::Select { exprs, from: None },
 };
 
-Num: i32 = <s:r"[0-9]+"> => i32::from_str(s).unwrap();
+SelectExprs: Vec<cst::SelectExpr> = {
+	Expr => vec![cst::SelectExpr{ expr: <>, alias: None }],
+};
+
+Expr: cst::Expr = {
+	ColumnName => cst::Expr::Column(<>),
+};
+
+ColumnName: cst::ColumnName = <s:r"[[:alpha:]]+"> => cst::ColumnName::from(s);

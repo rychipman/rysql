@@ -6,6 +6,7 @@ lalrpop_mod!(rysql);
 pub type ParseError<'t> = lalrpop_util::ParseError<usize, Token<'t>, &'static str>;
 
 pub fn parse(input: &str) -> Result<cst::Expr> {
-	println!("{:?}", rysql::TermParser::new().parse(input));
-	Err(Error::Unimplemented("lalrpop parsing".into()))
+	let select = rysql::SelectParser::new().parse(input).unwrap();
+	let expr = cst::Expr::Select(select);
+	Ok(expr)
 }
