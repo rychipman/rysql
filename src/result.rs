@@ -1,5 +1,5 @@
 use std::{io, fmt};
-use crate::parser::lalrpop;
+use crate::parser;
 
 pub type Result<T> = std::result::Result<T, Error>;
 
@@ -31,14 +31,8 @@ impl From<io::Error> for Error {
 	}
 }
 
-impl<R: pest::RuleType> From<pest::error::Error<R>> for Error {
-	fn from(e: pest::error::Error<R>) -> Self {
-		Error::Parse(format!("{}", e))
-	}
-}
-
-impl From<lalrpop::ParseError<'_>> for Error {
-	fn from(e: lalrpop::ParseError<'_>) -> Self {
+impl From<parser::ParseError<'_>> for Error {
+	fn from(e: parser::ParseError<'_>) -> Self {
 		Error::Parse(format!("{}", e))
 	}
 }
