@@ -7,7 +7,7 @@ pub Statement: cst::Statement = {
 }
 
 Select: cst::Select = {
-	"select" <exprs:SelectExprs> <from:("from" <TableExpr>)?> => cst::Select { exprs, from },
+	"select" <exprs:SelectExprs> <from:("from" <TableExpr>)?> <filter:("where" <Expr>)?> => cst::Select { exprs, from, filter },
 };
 
 CommaList<T>: Vec<T> = {

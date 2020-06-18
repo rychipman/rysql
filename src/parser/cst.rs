@@ -12,6 +12,7 @@ pub enum Expr {
 pub struct Select {
 	pub exprs: Vec<SelectExpr>,
 	pub from: Option<TableExpr>,
+	pub filter: Option<Expr>,
 }
 
 #[derive(Debug)]
