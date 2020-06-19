@@ -33,7 +33,7 @@ Expr: cst::Expr = {
 	ColumnName => cst::Expr::Column(<>),
 };
 
-ColumnName: cst::ColumnName = <s:r"[[:alpha:]]+"> => cst::ColumnName::from(s);
+ColumnName: cst::ColumnName = Ident => cst::ColumnName::from(<>);
 
 TableExpr: cst::TableExpr = {
 	TableName => cst::TableExpr::Table(<>),
@@ -41,9 +41,10 @@ TableExpr: cst::TableExpr = {
 	"(" <Select> ")" => cst::TableExpr::Subquery(Box::new(<>)),
 };
 
-TableName: cst::TableName = <s:r"[[:alpha:]]+"> => cst::TableName::from(s);
+TableName: cst::TableName = Ident => cst::TableName::from(<>);
 
 Join: cst::Join = {
 	<left:TableExpr> "join" <right:TableName> <filter:("on" <Expr>)?> => cst::Join{left: Box::new(left), right, filter},
 }
 
+Ident: String = <s:r"[[:alpha:]]+"> => String::from(s);
