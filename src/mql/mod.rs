@@ -3,7 +3,7 @@ use bson::{Bson, doc};
 
 pub struct Aggregate {
 	pub collection: Option<CollectionName>,
-	pub pipeline: Vec<bson::Document>,
+	pub pipeline: bson::Array,
 }
 
 impl Aggregate {
@@ -21,8 +21,14 @@ impl Aggregate {
 		}
 	}
 
+	pub fn print(&self) {
+		println!("aggregate: {:?}", self.collection);
+		let val: serde_json::Value = Bson::Array(self.pipeline.clone()).into();
+		println!("{}", serde_json::to_string_pretty(&val).unwrap());
+	}
+
 	fn append(&mut self, doc: bson::Document) {
-		self.pipeline.push(doc);
+		self.pipeline.push(Bson::Document(doc));
 	}
 }
 

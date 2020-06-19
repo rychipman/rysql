@@ -50,9 +50,7 @@ fn exec_stmt(stmt: Statement) -> Result<()> {
 		Statement::Parsed(stmt) => {
 			let ast = ast::Stage::from(stmt);
 			let agg = mql::to_mql(ast);
-			println!("aggregate: {:?}", agg.collection);
-			let json_val: serde_json::Value = bson::Bson::Document(agg.pipeline.get(0).unwrap().clone()).into();
-			println!("{}", serde_json::to_string_pretty(&json_val).unwrap());
+			agg.print();
 		},
 	};
 	Ok(())

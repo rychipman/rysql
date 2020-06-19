@@ -10,7 +10,10 @@ pub enum Stage {
 
 impl From<cst::Statement> for Stage {
 	fn from(stmt: cst::Statement) -> Self {
-		Stage::Dual
+		Stage::Filter(FilterStage{
+			expr: Expr::Null,
+			source: Box::new(Stage::Dual),
+		})
 	}
 }
 
