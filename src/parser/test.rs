@@ -17,6 +17,10 @@ fn should_parse() {
 	test_should_parse(true,  "select foo, bar from baz");
 	test_should_parse(true,  "select * from foo");
 	test_should_parse(true,  "select *, foo from bar");
+	test_should_parse(true,  "select foo as bar from baz");
+	test_should_parse(true,  "select foo bar from baz");
+	test_should_parse(true,  "select foo as f, bar b from baz");
+	test_should_parse(false, "select * as star from foo");
 	test_should_parse(true,  "select foo from bar where true");
 	test_should_parse(true,  "select foo from bar join baz");
 	test_should_parse(true,  "select foo from bar join baz on true");

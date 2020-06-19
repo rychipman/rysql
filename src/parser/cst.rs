@@ -17,14 +17,14 @@ pub struct Select {
 
 #[derive(Debug)]
 pub struct AliasedSelectExpr {
-	pub select_expr: SelectExpr,
+	pub expr: Expr,
 	pub alias: Option<ColumnName>,
 }
 
 #[derive(Debug)]
 pub enum SelectExpr {
 	Star,
-	Expr(Expr),
+	Aliased(AliasedSelectExpr),
 }
 
 #[derive(Debug)]

@@ -20,8 +20,12 @@ CommaList<T>: Vec<T> = {
 
 SelectExprs = CommaList<SelectExpr>;
 
+AliasedSelectExpr: cst::AliasedSelectExpr = {
+	<expr:Expr> <alias:("as"? <ColumnName>)?> => cst::AliasedSelectExpr{expr, alias},
+};
+
 SelectExpr: cst::SelectExpr = {
-	Expr => cst::SelectExpr::Expr(<>),
+	AliasedSelectExpr => cst::SelectExpr::Aliased(<>),
 	"*" => cst::SelectExpr::Star,
 };
 
