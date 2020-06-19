@@ -1,5 +1,7 @@
 pub mod parser;
 pub mod result;
+pub mod mql;
+pub mod ast;
 
 use std::{process, io::{self, Write}};
 use crate::{parser::cst, result::{Result, Error}};
