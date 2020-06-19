@@ -32,6 +32,11 @@ ColumnName: cst::ColumnName = <s:r"[[:alpha:]]+"> => cst::ColumnName::from(s);
 
 TableExpr: cst::TableExpr = {
 	TableName => cst::TableExpr::Table(<>),
+	Join => cst::TableExpr::Join(<>),
 };
 
 TableName: cst::TableName = <s:r"[[:alpha:]]+"> => cst::TableName::from(s);
+
+Join: cst::Join = {
+	<left:TableExpr> "join" <right:TableName> => cst::Join::new(left, right),
+}

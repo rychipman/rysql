@@ -37,6 +37,7 @@ impl<S: Into<String>> From<S> for ColumnName {
 #[derive(Debug)]
 pub enum TableExpr {
 	Table(TableName),
+	Join(Join)
 }
 
 #[derive(Debug)]
@@ -51,3 +52,17 @@ impl<S: Into<String>> From<S> for TableName {
 		TableName{name: normalized_name}
 	}
 }
+
+#[derive(Debug)]
+pub struct Join {
+	left: Box<TableExpr>,
+	right: TableName,
+}
+
+impl Join {
+	pub fn new(left: TableExpr, right: TableName) -> Self {
+		let left = Box::new(left);
+		Join { left, right }
+	}
+}
+
