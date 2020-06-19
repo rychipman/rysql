@@ -37,7 +37,8 @@ impl<S: Into<String>> From<S> for ColumnName {
 #[derive(Debug)]
 pub enum TableExpr {
 	Table(TableName),
-	Join(Join)
+	Join(Join),
+	Subquery(Box<Select>),
 }
 
 #[derive(Debug)]
@@ -59,4 +60,3 @@ pub struct Join {
 	pub right: TableName,
 	pub filter: Option<Expr>,
 }
-

@@ -19,4 +19,5 @@ fn should_parse() {
 	test_should_parse(true,  "select foo from bar join baz on true");
 	test_should_parse(true,  "select foo from bar join baz join barbaz");
 	test_should_parse(true,  "select foo from bar join baz on true join barbaz on false");
+	test_should_parse(true,  "select foo from (select bar from baz)");
 }
