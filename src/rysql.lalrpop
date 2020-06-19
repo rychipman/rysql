@@ -38,5 +38,5 @@ TableExpr: cst::TableExpr = {
 TableName: cst::TableName = <s:r"[[:alpha:]]+"> => cst::TableName::from(s);
 
 Join: cst::Join = {
-	<left:TableExpr> "join" <right:TableName> => cst::Join::new(left, right),
+	<left:TableExpr> "join" <right:TableName> <filter:("on" <Expr>)?> => cst::Join{left: Box::new(left), right, filter},
 }

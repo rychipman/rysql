@@ -55,14 +55,8 @@ impl<S: Into<String>> From<S> for TableName {
 
 #[derive(Debug)]
 pub struct Join {
-	left: Box<TableExpr>,
-	right: TableName,
-}
-
-impl Join {
-	pub fn new(left: TableExpr, right: TableName) -> Self {
-		let left = Box::new(left);
-		Join { left, right }
-	}
+	pub left: Box<TableExpr>,
+	pub right: TableName,
+	pub filter: Option<Expr>,
 }
 
