@@ -1,5 +1,5 @@
 use crate::ast;
-use bson::doc;
+use bson::{Bson, doc};
 
 pub struct Aggregate {
 	pub collection: Option<CollectionName>,
@@ -56,9 +56,23 @@ fn collection_to_mql(stage: ast::CollectionStage) -> Aggregate {
 }
 
 fn filter_to_mql(stage: ast::FilterStage) -> Aggregate {
-	unimplemented!()
+	let mut agg = to_mql(*stage.source);
+	let filter = expr_to_mql(stage.expr);
+	agg.append(doc!{"$match": {"$expr": filter}});
+	agg
 }
 
 fn project_to_mql(stage: ast::ProjectStage) -> Aggregate {
 	unimplemented!()
+}
+
+fn expr_to_mql(expr: ast::Expr) -> Bson {
+	match expr {
+		ast::Expr::Null => Bson::Null,
+		ast::Expr::Bool(b) => Bson::Boolean(b),
+		ast::Expr::Int(i) => Bson::Int32(i),
+		ast::Expr::Long(l) => Bson::Int64(l),
+		ast::Expr::String(s) => Bson::String(s),
+		_ => unimplemented!(),
+	}
 }

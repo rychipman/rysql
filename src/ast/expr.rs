@@ -9,7 +9,6 @@ pub enum Expr {
 	Array(Vec<Expr>),
 	Tuple(Tuple),
 	Null,
-	Missing,
 }
 
 #[derive(Debug)]

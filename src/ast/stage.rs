@@ -21,12 +21,12 @@ pub struct CollectionStage {
 
 #[derive(Debug)]
 pub struct FilterStage {
-	expr: Expr,
-	source: Box<Stage>,
+	pub expr: Expr,
+	pub source: Box<Stage>,
 }
 
 #[derive(Debug)]
 pub struct ProjectStage {
-	tuple: Tuple,
-	source: Box<Stage>,
+	pub tuple: Tuple,
+	pub source: Box<Stage>,
 }
