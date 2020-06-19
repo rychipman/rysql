@@ -47,7 +47,13 @@ fn exec_stmt(stmt: Statement) -> Result<()> {
 	match stmt {
 		Statement::Meta(MetaCommand::Exit) => process::exit(0),
 		Statement::NoOp => {},
-		Statement::Parsed(s) => println!("parsed {:?}", s),
+		Statement::Parsed(stmt) => {
+			let ast = ast::Stage::from(stmt);
+			let agg = mql::to_mql(ast);
+			println!("aggregate: {:?}", agg.collection);
+			let json_val: serde_json::Value = bson::Bson::Document(agg.pipeline.get(0).unwrap().clone()).into();
+			println!("{}", serde_json::to_string_pretty(&json_val).unwrap());
+		},
 	};
 	Ok(())
 }

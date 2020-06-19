@@ -1,4 +1,4 @@
-use crate::{mql::CollectionName, ast::{Expr,Tuple}};
+use crate::{mql::CollectionName, ast::{Expr,Tuple}, cst};
 
 #[derive(Debug)]
 pub enum Stage {
@@ -6,6 +6,12 @@ pub enum Stage {
 	Collection(CollectionStage),
 	Filter(FilterStage),
 	Project(ProjectStage),
+}
+
+impl From<cst::Statement> for Stage {
+	fn from(stmt: cst::Statement) -> Self {
+		Stage::Dual
+	}
 }
 
 #[derive(Debug)]
