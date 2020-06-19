@@ -16,9 +16,15 @@ pub struct Select {
 }
 
 #[derive(Debug)]
-pub struct SelectExpr {
-	pub expr: Expr,
+pub struct AliasedSelectExpr {
+	pub select_expr: SelectExpr,
 	pub alias: Option<ColumnName>,
+}
+
+#[derive(Debug)]
+pub enum SelectExpr {
+	Star,
+	Expr(Expr),
 }
 
 #[derive(Debug)]

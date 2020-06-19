@@ -21,7 +21,8 @@ CommaList<T>: Vec<T> = {
 SelectExprs = CommaList<SelectExpr>;
 
 SelectExpr: cst::SelectExpr = {
-	Expr => cst::SelectExpr{ expr: <>, alias: None },
+	Expr => cst::SelectExpr::Expr(<>),
+	"*" => cst::SelectExpr::Star,
 };
 
 Expr: cst::Expr = {
