@@ -13,11 +13,20 @@ pub enum Expr {
 
 #[derive(Debug)]
 pub struct Tuple {
-	bindings: Vec<Binding>,
+	pub bindings: Vec<Binding>,
 }
 
 #[derive(Debug)]
 pub struct Binding {
-	name: FieldName,
-	value: Box<Expr>,
+	pub name: FieldName,
+	pub value: Box<Expr>,
+}
+
+impl Binding {
+	pub fn new<S: Into<String>>(name: S, value: Expr) -> Self {
+		Binding {
+			name: FieldName::new(name),
+			value: Box::new(value),
+		}
+	}
 }

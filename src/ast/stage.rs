@@ -1,4 +1,4 @@
-use crate::{mql::CollectionName, ast::{Expr,Tuple}, cst};
+use crate::{mql::CollectionName, ast::{Expr,Tuple, Binding}, cst};
 
 #[derive(Debug)]
 pub enum Stage {
@@ -10,9 +10,17 @@ pub enum Stage {
 
 impl From<cst::Statement> for Stage {
 	fn from(stmt: cst::Statement) -> Self {
-		Stage::Filter(FilterStage{
+		let filter = Stage::Filter(FilterStage{
 			expr: Expr::Null,
 			source: Box::new(Stage::Dual),
+		});
+		Stage::Project(ProjectStage{
+			tuple: Tuple{
+				bindings: vec![
+					Binding::new("a", Expr::Null),
+				],
+			},
+			source: Box::new(filter),
 		})
 	}
 }

@@ -42,6 +42,18 @@ pub struct FieldName {
 	name: String,
 }
 
+impl FieldName {
+	pub fn new<S: Into<String>>(name: S) -> Self {
+		FieldName{ name: name.into() }
+	}
+}
+
+impl ToString for FieldName {
+	fn to_string(&self) -> String {
+		self.name.clone()
+	}
+}
+
 pub fn to_mql(stage: ast::Stage) -> Aggregate {
 	match stage {
 		ast::Stage::Dual => dual_to_mql(),
@@ -69,7 +81,16 @@ fn filter_to_mql(stage: ast::FilterStage) -> Aggregate {
 }
 
 fn project_to_mql(stage: ast::ProjectStage) -> Aggregate {
-	unimplemented!()
+	let mut agg = to_mql(*stage.source);
+	let project: bson::Document = stage
+		.tuple
+		.bindings
+		.into_iter()
+		.map(|bind| (bind.name.to_string(), expr_to_mql(*bind.value)))
+		.collect();
+	let project = Bson::Document(project);
+	agg.append(doc!{"$project": project});
+	agg
 }
 
 fn expr_to_mql(expr: ast::Expr) -> Bson {
